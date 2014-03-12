@@ -8,3 +8,4 @@ config/bootstrap
 config/common
 config/source
 .lock
+sdc-vmtools
