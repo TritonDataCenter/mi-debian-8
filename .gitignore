@@ -1,0 +1,6 @@
+cache
+binary
+binary.*
+build.log
+chroot
+.stage

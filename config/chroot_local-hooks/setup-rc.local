@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# Creates the necessary symlink to ensure joyent_rc.local is run at boot
+
+mv /etc/rc.local /etc/rc.local-backup
+ln -s /lib/smartdc/joyent_rc.local /etc/rc.local

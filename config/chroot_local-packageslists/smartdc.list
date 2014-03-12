@@ -1,0 +1,10 @@
+curl
+wget
+vim
+mlocate
+bzip2
+openssh-server
+ntp
+acpid
+less
+lsb_release

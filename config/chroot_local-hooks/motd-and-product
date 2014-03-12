@@ -1,0 +1,26 @@
+#!/bin/sh
+
+BUILDDATE=`date +%F`
+NAME="debian 7"
+WIKIURL="http://wiki.joyent.com/jpc2/Debian"
+
+
+# Create the MOTD
+mv /etc/motd /etc/motd-backup
+
+cat << MOTD > /etc/motd
+   __        .                   .
+ _|  |_      | .-. .  . .-. :--. |-
+|_    _|     ;|   ||  |(.-' |  | |
+  |__|   \`--'  \`-' \`;-| \`-' '  ' \`-'
+                   /  ;  Instance (${NAME} ${BUILDDATE})
+                   \`-'   ${WIKIURL}
+
+MOTD
+
+# Create product file
+cat << PRODUCT > /etc/product
+Name: Joyent Instance
+Image: ${NAME} ${BUILDDATE}
+Documentation: ${WIKIURL}
+PRODUCT
