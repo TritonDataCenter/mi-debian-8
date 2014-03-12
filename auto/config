@@ -4,12 +4,13 @@ lb config noauto \
      --quiet \
      --mode debian \
      --linux-flavours amd64 \
+     --bootappend-live "auto=true priority=critical vga=normal quiet auto" \
      --bootappend-install "auto locales=en_US.UTF-8 keyboard-layouts=us" \
      --distribution wheezy \
      --debian-installer live \
      --debian-installer-gui false \
      --packages-lists "standard" \
-     --packages "curl wget vim mlocate bzip2 openssh-server ntp acpid less lsb_release" \
+     --packages "curl wget vim mlocate bzip2 openssh-server ntp acpid less lsb-release" \
      --binary-images iso \
      --mirror-bootstrap http://ftp.us.debian.org/debian/ \
      --mirror-binary http://ftp.us.debian.org/debian/ \
