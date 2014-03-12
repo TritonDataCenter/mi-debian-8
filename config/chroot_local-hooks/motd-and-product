@@ -1,6 +1,6 @@
 #!/bin/sh
 
-BUILDDATE=`date +%F`
+BUILDDATE=`date +%Y%m%d`
 NAME="debian 7"
 WIKIURL="http://wiki.joyent.com/jpc2/Debian"
 
