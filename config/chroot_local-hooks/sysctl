@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # Tune Linux vm.dirty_background_bytes (IMAGE-439)
 # The following tuning causes dirty data to begin to be background flushed at
 # 100 Mbytes, so that it writes earlier and more often to avoid a large build
