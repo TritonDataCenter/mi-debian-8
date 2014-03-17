@@ -2,4 +2,4 @@
 
 # Applying recommended grub settings
 # See internal doc https://hub.joyent.com/wiki/display/sys/SmartOS+Guest+OS+Compatability
-sed -i 's/GRUB_CMDLINE_LINUX=""/GRUB_CMDLINE_LINUX="divider=10 tsc=reliable"/g' /etc/default/grub
+#sed -i 's/GRUB_CMDLINE_LINUX=""/GRUB_CMDLINE_LINUX="divider=10 tsc=reliable"/g' /etc/default/grub
