@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# Disable password auth. SSH logon is via ssh key only. A password is being set
+# for root via the image manifest per IMAGE-459.
+
+echo "" >> /etc/ssh/sshd_config
+echo "# Disable tunneled clear text passwords. Login is via ssh key only." >> /etc/ssh/sshd_config
+echo "PasswordAuthentication no" >> /etc/ssh/sshd_config
+echo "" >> /etc/ssh/sshd_config
