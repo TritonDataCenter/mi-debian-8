@@ -2,4 +2,4 @@
 
 # Ensures /etc/hostname is empty, it gets set by DHCP
 
-cat /dev/null > /etc/hostname
+#cat /dev/null > /etc/hostname
