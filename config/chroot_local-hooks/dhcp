@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# Set dhcp-lease-time to 3600 
+
+sed -i 's/#send dhcp-lease-time 3600;/send dhcp-lease-time 3600;/g' /etc/dhcp/dhclient.conf 
