@@ -3,12 +3,13 @@ binary
 binary.*
 build.log
 chroot
+chroot.packages.*
 .stage
 config/bootstrap
 config/common
 config/source
 .lock
 sdc-vmtools
-config/chroot_local-includes/lib/
-config/chroot_local-includes/etc/
-config/chroot_local-includes/usr/
+config/includes.chroot/lib/
+config/includes.chroot/etc/
+config/includes.chroot/usr/
