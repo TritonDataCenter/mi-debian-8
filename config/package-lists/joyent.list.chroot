@@ -8,3 +8,6 @@ ntp
 acpid
 less
 lsb_release
+login-duo
+parted
+htop

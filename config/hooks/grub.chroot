@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# Grub optimizations
+
+sed -i 's/GRUB_CMDLINE_LINUX=""/GRUB_CMDLINE_LINUX="divider=10 tsc=reliable"/g' /etc/default/grub
