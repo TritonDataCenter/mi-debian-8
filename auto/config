@@ -4,12 +4,11 @@ lb config noauto \
      --quiet \
      --mode debian \
      --linux-flavours amd64 \
-     --bootappend-live "auto=true priority=critical vga=normal quiet auto" \
+     --bootappend-live "auto=true priority=critical vga=normal auto locales=en_US.UTF-8 keyboard-layouts=us" \
      --bootappend-install "auto locales=en_US.UTF-8 keyboard-layouts=us" \
      --distribution wheezy \
      --debian-installer live \
      --debian-installer-gui false \
-     --packages-lists "standard" \
      --binary-images iso \
      --mirror-bootstrap http://ftp.us.debian.org/debian/ \
      --mirror-binary http://ftp.us.debian.org/debian/ \
