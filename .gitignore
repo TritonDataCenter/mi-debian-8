@@ -2,6 +2,7 @@ cache
 binary
 binary.*
 build.log
+.build
 chroot
 chroot.packages.*
 .stage
