@@ -7,7 +7,7 @@ openssh-server
 ntp
 acpid
 less
-lsb_release
+lsb-release
 login-duo
 parted
 htop
