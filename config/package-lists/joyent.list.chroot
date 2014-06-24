@@ -3,7 +3,6 @@ bzip2
 curl
 htop
 less
-lsb-release
 login-duo
 mlocate
 ntp
