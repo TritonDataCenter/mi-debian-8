@@ -3,7 +3,6 @@ bzip2
 curl
 htop
 less
-login-duo
 mlocate
 ntp
 openssh-server
