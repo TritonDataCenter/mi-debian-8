@@ -1,6 +1,0 @@
-#!/bin/sh
-
-# Remove ssh_host_* keys
-# ssh_host_* keys will be recreated via rc.local on first boot 
-
-find /etc/ssh -type f -name "ssh_host_*" -exec rm -f '{}' +
