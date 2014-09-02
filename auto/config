@@ -4,8 +4,8 @@ lb config noauto \
      --quiet \
      --mode debian \
      --linux-flavours amd64 \
-     --bootappend-live "auto=true priority=critical vga=normal auto locales=en_US.UTF-8 keyboard-layouts=us" \
-     --bootappend-install "auto locales=en_US.UTF-8 keyboard-layouts=us" \
+     --bootappend-live "auto=true priority=critical vga=normal locales=en_US.UTF-8 keyboard-layouts=us" \
+     --bootappend-install "auto=true priority=critical locales=en_US.UTF-8 keyboard-layouts=us" \
      --distribution wheezy \
      --debian-installer live \
      --debian-installer-gui false \
