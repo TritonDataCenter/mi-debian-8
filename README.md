@@ -40,5 +40,5 @@ Once configured, run the following command:
 Thsi will run copy teh required files from sdc-vmtools into `config/includes.chroot` and then will run `config/includes.chroot`
 
 Once complete, your custom ISO (binary.iso) will be available in the root of this repository
-=======
+
 See http://live-systems.org/manual/3.x/html/live-manual.en.html
