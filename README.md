@@ -4,7 +4,7 @@ This repo contains live-build files and scripts to create an custom Debian 7
 ISO image with the necessary packages and sdc-vmtools installed for deploying 
 on SmartOS and Joyent Public Cloud.
 
-For more information on live-build the [live-build manual](http://live-systems.org/manual/stable/html/live-manual.en.html)
+For more information on live-build see the [live-build manual](http://live-systems.org/manual/stable/html/live-manual.en.html)
 
 ## Requirements
 
