@@ -22,7 +22,7 @@ Install live-build:
 apt-get install live-build
 ```
 
-Put sdc-vmtools in the root of this repository.
+Put the sdc-vmtools directory in the root of this repository.
 
 ## Configure
 

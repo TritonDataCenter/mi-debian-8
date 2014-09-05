@@ -2,20 +2,11 @@
 
 set -e
 
-# Get's latest sdc-vmtools from git, then runs a complete build:
-# lb clean; lb config; lb build
-
 
 if [ ! -d sdc-vmtools ] ; then
-  echo "sdc-vmtools git repo not found, cloning..."
-  git clone git@git.joyent.com:sdc-vmtools.git
+  echo "sdc-vmtools  not found!"
+  exit 1
 fi
-
-echo "Updating sdc-vmtools git repo"
-cd sdc-vmtools
-git pull
-cd ..
-
 
 includes=config/includes.chroot
 sdcvmtools=sdc-vmtools/src/linux
