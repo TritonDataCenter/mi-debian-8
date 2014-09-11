@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# Enable serial console on ttys0
+
+echo ""
+echo "# Enable serial console on ttys0" >> /etc/inittab
+echo "s0:2345:respawn:/sbin/getty -L 115200 ttyS0 vt102" >> /etc/inittab
