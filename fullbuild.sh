@@ -1,9 +1,9 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 set -e
 
 
-if [ ! -d sdc-vmtools ] ; then
+if [[ ! -d sdc-vmtools ]] ; then
   echo "sdc-vmtools  not found!"
   exit 1
 fi
