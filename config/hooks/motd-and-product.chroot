@@ -1,7 +1,7 @@
 #!/bin/sh
 
 BUILDDATE=`date +%Y%m%d`
-NAME="debian 7"
+NAME="Debian 7.6 (wheezy)"
 WIKIURL="http://wiki.joyent.com/jpc2/Debian"
 
 
@@ -23,5 +23,5 @@ cat << PRODUCT > /etc/product
 Name: Joyent Instance
 Image: ${NAME} ${BUILDDATE}
 Documentation: ${WIKIURL}
-Descrtipion: Debian 7.4 (wheezy) 64-bit image with just essential packages installed. Ideal for users who are comfortable with setting up their own environment and tools.
+Descrtipion: ${NAME} 64-bit image with just essential packages installed. Ideal for users who are comfortable with setting up their own environment and tools.
 PRODUCT
