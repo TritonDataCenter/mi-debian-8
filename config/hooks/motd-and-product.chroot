@@ -2,7 +2,7 @@
 
 BUILDDATE=`date +%Y%m%d`
 NAME="Debian 7.8 (wheezy)"
-WIKIURL="http://wiki.joyent.com/jpc2/Debian"
+WIKIURL="https://docs.joyent.com/images/linux/debian"
 
 
 # Create the MOTD
