@@ -10,6 +10,6 @@ lb config noauto \
      --debian-installer live \
      --debian-installer-gui false \
      --binary-images iso \
-     --mirror-bootstrap http://ftp.us.debian.org/debian/ \
-     --mirror-binary http://ftp.us.debian.org/debian/ \
+     --mirror-bootstrap http://httpredir.debian.org/debian/ \
+     --mirror-binary http://httpredir.debian.org/debian/ \
      "${@}"
