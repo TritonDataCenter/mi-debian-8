@@ -1,6 +1,7 @@
 cache
 binary
 binary.*
+blank.json
 build.log
 .build
 chroot
