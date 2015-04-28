@@ -3,21 +3,67 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-BLANK_MANIFEST="debian-blank.json"
-BLANK_NAME=$(cat $BLANK_MANIFEST | json -a alias)
+BLANK_MANIFEST=blank.json
+ALIAS=
+HOSTNAME=${ALIAS}
+OWNER_UUID=
+IP=
+NETMASK=
+GATEWAY=
+VLAN_ID=
+NETWORK_UUID=
 VM_UUID=
 BUILD_DATE=$(date +%Y%m%d)
-IMAGE_NAME="debian-8"
-DISTRO_NAME="Debian 8 (jessie)"
+IMAGE_NAME=
+DISTRO_NAME=
 ISO=binary.iso
 
-function check__for_blank {
-  echo  "==> Checking for existing blank "$BLANK_NAME" VM."
+# The manifest for the blank VM, saved as blank.json
+cat << MANIFEST > $BLANK_MANIFEST
+{
+  "brand": "kvm",
+  "alias": "$ALIAS",
+  "hostname": "$HOSTNAME",
+  "autoboot": false,
+  "ram": 4096,
+  "vcpus": 2, 
+  "max_physical_memory": 5120,
+  "quota": 10,
+  "disks": [
+    {
+      "boot": true,
+      "model": "virtio",
+      "size": 10240 
+    }
+  ],
+  "owner_uuid": "$OWNER_UUID",
+  "resolvers": [
+    "8.8.8.8",
+    "8.8.4.4"
+  ],
+  "nics": [
+    {
+      "interface": "net0",
+      "nic_tag": "external",
+      "ip": "$IP",
+      "primary": "true",
+      "netmask": "$NETMASK",
+      "gateway": "$GATEWAY",
+      "vlan_id": $VLAN_ID,
+      "model": "virtio",
+      "network_uuid": "$NETWORK_UUID"
+    }
+  ]
+}
+MANIFEST
+
+function check_for_blank {
+  echo  "==> Checking for existing blank "$ALIAS" VM."
   set +e
-  blank=$(pfexec vmadm list | grep $BLANK_NAME)
+  blank=$(pfexec vmadm list | grep $ALIAS)
   
   if [[ $? -eq 0 ]]; then
-    echo "==> Blank VM "$BLANK_NAME" found:"
+    echo "==> Blank VM "$ALIAS" found:"
     echo "==> $blank"
     echo -n "==> Deleting..."
     blank_uuid=$(echo $blank  | cut -f1 -d ' ')
@@ -26,14 +72,14 @@ function check__for_blank {
     echo "==> Sleeping for 5 seconds before we continue."
     sleep 5
   else
-    echo "No Blank VM "$BLANK_NAME" found. It's safe to create a new one."
+    echo "No Blank VM "$ALIAS" found. It's safe to create a new one."
   fi
   set -e
   echo "==>"
 }
 
 function create_blank {
-  echo -n "==> Creating blank "$BLANK_NAME" VM and getting VM_UUID..."
+  echo -n "==> Creating blank "$ALIAS" VM and getting VM_UUID..."
   VM_UUID=$(pfexec vmadm create -f $BLANK_MANIFEST 2>&1 | awk '{print $4;}')
   echo "done!"
   echo "==> VM_UUID is ${VM_UUID}"
@@ -63,7 +109,7 @@ function get_VNC {
 }
 
 function check_state {
-  echo -n "==> Checking state of '$BLANK_NAME' VM to ensure it's stopped before we proceed..."
+  echo -n "==> Checking state of '$ALIAS' VM to ensure it's stopped before we proceed..."
   STATE="running"
     while [[ $STATE != "stopped" ]]; do
       STATE=$(pfexec vmadm get ${VM_UUID} | json -a state)
@@ -71,7 +117,7 @@ function check_state {
       sleep 5
     done
   echo "ready!" 
-  echo "==> The '$BLANK_NAME' VM is stopped. Sleping for 15 seconds before we continue."
+  echo "==> The '$ALIAS' VM is stopped. Sleping for 15 seconds before we continue."
   sleep 15 
   echo "==>"
 }
@@ -109,7 +155,7 @@ function show_image_files {
 
 echo "*** Starting image creation process! ***" 
 
-check__for_blank
+check_for_blank
 create_blank
 copy_iso
 start_blank
