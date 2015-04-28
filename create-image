@@ -181,7 +181,7 @@ function check_state {
     while [[ $STATE != "stopped" ]]; do
       STATE=$(pfexec vmadm get ${VM_UUID} | json -a state)
       echo -n "."
-      sleep 5
+      sleep 1
     done
   echo "ready!" 
   echo "==> The '$IMAGE_NAME' VM is stopped. Sleping for 15 seconds before we continue."
