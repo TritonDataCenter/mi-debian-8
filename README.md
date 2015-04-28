@@ -1,6 +1,6 @@
 # mi-debian
 
-This repo contains live-build files and scripts to create an custom Debian 7 
+This repo contains live-build files and scripts to create an custom Debian 8 
 ISO image with the necessary packages and sdc-vmtools installed for deploying 
 on SmartOS and Joyent Public Cloud.
 
