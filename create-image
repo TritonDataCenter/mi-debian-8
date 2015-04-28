@@ -125,12 +125,12 @@ cat << MANIFEST > $BLANK_MANIFEST
 MANIFEST
 
 function check_for_blank {
-  echo  "==> Checking for existing blank "$ALIAS" VM."
+  echo  "==> Checking for existing blank "$IMAGE_NAME" VM."
   set +e
-  blank=$(pfexec vmadm list | grep $ALIAS)
+  blank=$(pfexec vmadm list | grep $IMAGE_NAME)
   
   if [[ $? -eq 0 ]]; then
-    echo "==> Blank VM "$ALIAS" found:"
+    echo "==> Blank VM "$IMAGE_NAME" found:"
     echo "==> $blank"
     echo -n "==> Deleting..."
     blank_uuid=$(echo $blank  | cut -f1 -d ' ')
@@ -139,14 +139,14 @@ function check_for_blank {
     echo "==> Sleeping for 5 seconds before we continue."
     sleep 5
   else
-    echo "No Blank VM "$ALIAS" found. It's safe to create a new one."
+    echo "No Blank VM "$IMAGE_NAME" found. It's safe to create a new one."
   fi
   set -e
   echo "==>"
 }
 
 function create_blank {
-  echo -n "==> Creating blank "$ALIAS" VM and getting VM_UUID..."
+  echo -n "==> Creating blank "$IMAGE_NAME" VM and getting VM_UUID..."
   VM_UUID=$(pfexec vmadm create -f $BLANK_MANIFEST 2>&1 | awk '{print $4;}')
   echo "done!"
   echo "==> VM_UUID is ${VM_UUID}"
@@ -176,7 +176,7 @@ function get_VNC {
 }
 
 function check_state {
-  echo -n "==> Checking state of '$ALIAS' VM to ensure it's stopped before we proceed..."
+  echo -n "==> Checking state of '$IMAGE_NAME' VM to ensure it's stopped before we proceed..."
   STATE="running"
     while [[ $STATE != "stopped" ]]; do
       STATE=$(pfexec vmadm get ${VM_UUID} | json -a state)
@@ -184,7 +184,7 @@ function check_state {
       sleep 5
     done
   echo "ready!" 
-  echo "==> The '$ALIAS' VM is stopped. Sleping for 15 seconds before we continue."
+  echo "==> The '$IMAGE_NAME' VM is stopped. Sleping for 15 seconds before we continue."
   sleep 15 
   echo "==>"
 }
