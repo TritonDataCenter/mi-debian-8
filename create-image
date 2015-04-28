@@ -1,29 +1,92 @@
 #!/usr/bin/env bash
+#
+# Copyright (c) 2015 Joyent Inc., All rights reserved.
+#
 
 set -euo pipefail
 IFS=$'\n\t'
 
-BLANK_MANIFEST=blank.json
-ALIAS=
-HOSTNAME=${ALIAS}
+
+ISO=
+IMAGE_NAME=
 OWNER_UUID=
+
 IP=
 NETMASK=
 GATEWAY=
 VLAN_ID=
 NETWORK_UUID=
-VM_UUID=
+
+BLANK_MANIFEST=blank.json
 BUILD_DATE=$(date +%Y%m%d)
-IMAGE_NAME=
-DISTRO_NAME=
-ISO=binary.iso
+
+VM_UUID=
+
+usage() {
+cat <<EOF
+
+Create an kvm Debian image from a given ISO file.
+
+Usage:
+  $0 -i <ISO> -n <IMAGE_NAME> -o <OWNER_UUID> -p <IP> -m NETMASK -v <VLAN_ID> -u <NETWORK_UUID>
+
+Example:
+  $0 -i binary.sio -n debian-8 -o 00000000-0000-0000-0000-000000000000 -p 192.0.2.21 -m NETMASK -v <VLAN_ID> -u <NETWORK_UUID>
+    
+OPTIONS:
+  -i The ISO
+  -n The name of the image as it would appear in the manifest
+  -o The onwer UUID for the blank VM
+  -p The IP address for the blank VM
+  -m The netmask for the blank VM
+  -v The vlan ID for blank VM
+  -u The Network UUID for the blank vm
+  -h Show this message
+
+EOF
+}
+
+while getopts "hi:n:o:p:m:v:u:" OPTION
+do
+  case $OPTION in
+    h)
+      usage
+      exit 1
+      ;;
+    i)
+      ISO=${OPTARG}
+      ;;
+    n)
+      IMAGE_NAME=${OPTARG}
+      ;;
+    o)
+      OWNER_UUID=${OPTARG}
+      ;;
+    p)
+      IP=${OPTARG}
+      ;;
+    m)
+      NETMASK=${OPTARG}
+      ;;
+    v)
+      VLAN_ID=${OPTARG}
+      ;;
+    u)
+      NETWORK_UUID=${OPTARG}
+      ;;
+    ?)
+      usage
+      exit 1
+      ;;
+  esac
+done
 
 # The manifest for the blank VM, saved as blank.json
 cat << MANIFEST > $BLANK_MANIFEST
 {
   "brand": "kvm",
-  "alias": "$ALIAS",
-  "hostname": "$HOSTNAME",
+  "alias": "$IMAGE_NAME",
+  "hostname": "$IMAGE_NAME",
   "autoboot": false,
   "ram": 4096,
   "vcpus": 2, 
@@ -138,7 +201,7 @@ function create_file {
 
 function create_manifest {
   echo "==> Creating manifest file..."
-  ./sdc-vmmanifest -f ${IMAGE_NAME}-${BUILD_DATE}.zfs.gz -n ${IMAGE_NAME} -s 10240 -v ${BUILD_DATE} -d "${DISTRO_NAME} 64-bit image with just essential packages installed. Ideal for users who are comfortable with setting up their own environment and tools." -h https://docs.joyent.com/images/linux/debian -o linux > ${IMAGE_NAME}-${BUILD_DATE}.json
+  ./sdc-vmmanifest -f ${IMAGE_NAME}-${BUILD_DATE}.zfs.gz -n ${IMAGE_NAME} -s 10240 -v ${BUILD_DATE} -d "Debian 8 (jessie) 64-bit image with just essential packages installed. Ideal for users who are comfortable with setting up their own environment and tools." -h https://docs.joyent.com/images/kvm/debian -o linux > ${IMAGE_NAME}-${BUILD_DATE}.json
   echo "==> done!"
   echo "==>"
 }
