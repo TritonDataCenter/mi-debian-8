@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-set -e
+set -euo pipefail
+IFS=$'\n\t'
 
 
 if [[ ! -d sdc-vmtools ]] ; then
