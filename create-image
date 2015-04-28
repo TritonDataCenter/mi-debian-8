@@ -1,0 +1,123 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+IFS=$'\n\t'
+
+BLANK_MANIFEST="debian-blank.json"
+BLANK_NAME=$(cat $BLANK_MANIFEST | json -a alias)
+VM_UUID=
+BUILD_DATE=$(date +%Y%m%d)
+IMAGE_NAME="debian-8"
+DISTRO_NAME="Debian 8 (jessie)"
+ISO=binary.iso
+
+function check__for_blank {
+  echo  "==> Checking for existing blank "$BLANK_NAME" VM."
+  set +e
+  blank=$(pfexec vmadm list | grep $BLANK_NAME)
+  
+  if [[ $? -eq 0 ]]; then
+    echo "==> Blank VM "$BLANK_NAME" found:"
+    echo "==> $blank"
+    echo -n "==> Deleting..."
+    blank_uuid=$(echo $blank  | cut -f1 -d ' ')
+    pfexec vmadm delete $blank_uuid
+    echo "done!"
+    echo "==> Sleeping for 5 seconds before we continue."
+    sleep 5
+  else
+    echo "No Blank VM "$BLANK_NAME" found. It's safe to create a new one."
+  fi
+  set -e
+  echo "==>"
+}
+
+function create_blank {
+  echo -n "==> Creating blank "$BLANK_NAME" VM and getting VM_UUID..."
+  VM_UUID=$(pfexec vmadm create -f $BLANK_MANIFEST 2>&1 | awk '{print $4;}')
+  echo "done!"
+  echo "==> VM_UUID is ${VM_UUID}"
+  echo "==>"
+}
+
+function copy_iso {
+  echo -n "==> Copying $ISO to /zones/${VM_UUID}/root/..."
+  pfexec cp $ISO /zones/${VM_UUID}/root/
+  echo "done!"
+  echo "==>"
+}
+
+function start_blank {
+  echo "==> Starting ${VM_UUID} with cdrom=/$ISO:"
+  pfexec vmadm start ${VM_UUID} order=cd,once=d cdrom=/$ISO,ide
+  echo "==>"
+}
+
+function get_VNC {
+  echo "==> Getting VNC info for ${VM_UUID}:"
+  host=$(pfexec vmadm info ${VM_UUID} vnc  2>&1 | json -a vnc.host)
+  port=$(pfexec vmadm info ${VM_UUID} vnc  2>&1 | json -a vnc.port)
+  echo "==> Host: $host"
+  echo "==> Port: $port"
+  echo "==>"
+}
+
+function check_state {
+  echo -n "==> Checking state of '$BLANK_NAME' VM to ensure it's stopped before we proceed..."
+  STATE="running"
+    while [[ $STATE != "stopped" ]]; do
+      STATE=$(pfexec vmadm get ${VM_UUID} | json -a state)
+      echo -n "."
+      sleep 5
+    done
+  echo "ready!" 
+  echo "==> The '$BLANK_NAME' VM is stopped. Sleping for 15 seconds before we continue."
+  sleep 15 
+  echo "==>"
+}
+
+function snapshot {
+  echo "==> Creating snapshot..."
+  zfs snapshot zones/${VM_UUID}-disk0@dataset-${BUILD_DATE}
+  echo "==> done!"
+  echo "==>"
+}
+
+function create_file {
+  echo "==> Creating image file..."
+  zfs send zones/${VM_UUID}-disk0@dataset-${BUILD_DATE} | gzip -9 > ${IMAGE_NAME}-${BUILD_DATE}.zfs.gz
+  echo "==> done!"
+  echo "==>"
+}
+
+function create_manifest {
+  echo "==> Creating manifest file..."
+  ./sdc-vmmanifest -f ${IMAGE_NAME}-${BUILD_DATE}.zfs.gz -n ${IMAGE_NAME} -s 10240 -v ${BUILD_DATE} -d "${DISTRO_NAME} 64-bit image with just essential packages installed. Ideal for users who are comfortable with setting up their own environment and tools." -h https://docs.joyent.com/images/linux/debian -o linux > ${IMAGE_NAME}-${BUILD_DATE}.json
+  echo "==> done!"
+  echo "==>"
+}
+
+function show_image_files {
+  echo "*** Image creation complete ***"
+  echo "==> Image files:"
+  echo "$(ls | grep $BUILD_DATE)"
+  echo ""
+}
+
+
+# MAIN
+
+echo "*** Starting image creation process! ***" 
+
+check__for_blank
+create_blank
+copy_iso
+start_blank
+get_VNC
+check_state
+snapshot
+create_file
+create_manifest
+show_image_files
+
+exit 0

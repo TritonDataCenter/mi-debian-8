@@ -1,0 +1,35 @@
+{
+  "brand": "kvm",
+  "alias": "debian-8-blank",
+  "hostname": "debian-8",
+  "autoboot": false,
+  "ram": 4096,
+  "vcpus": 2, 
+  "max_physical_memory": 5120,
+  "quota": 10,
+  "disks": [
+    {
+      "boot": true,
+      "model": "virtio",
+      "size": 10240 
+    }
+  ],
+  "owner_uuid": "00000000-0000-0000-0000-000000000000",
+  "resolvers": [
+    "8.8.8.8",
+    "8.8.4.4"
+  ],
+  "nics": [
+    {
+      "interface": "net0",
+      "nic_tag": "external",
+      "ip": "0.0.0.0",
+      "primary": "true",
+      "netmask": "0.0.0.0",
+      "gateway": "0.0.0.0",
+      "vlan_id": 1111,
+      "model": "virtio",
+      "network_uuid": "00000000-0000-0000-0000-000000000000"
+    }
+  ]
+}
