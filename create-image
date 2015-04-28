@@ -63,6 +63,12 @@ do
     n)
       IMAGE_NAME=${OPTARG}
       ;;
+    d)
+      DESC=${OPTARG}
+      ;;
+    u)
+      HOMEPAGE=${OPTARG}
+      ;;
     o)
       OWNER_UUID=${OPTARG}
       ;;
@@ -75,7 +81,7 @@ do
     v)
       VLAN_ID=${OPTARG}
       ;;
-    u)
+    U)
       NETWORK_UUID=${OPTARG}
       ;;
     ?)
@@ -84,6 +90,15 @@ do
       ;;
   esac
 done
+
+if [[ -z ${ISO} || -z ${IMAGE_NAME} || -z ${DESC} || -z ${HOMEPAGE} \
+  || -z ${OWNER_UUID} || -z ${IP} || -z ${NETMASK} || -z ${VLAN_ID} \
+  || -z ${NETWORK_UUID} ]]; then
+  
+  echo "FATAL: All of -i, -n, -d, -u, -o, -p, -m, -v, and -U are required."
+  usage
+  exit 1
+fi
 
 # The manifest for the blank VM, saved as blank.json
 cat << MANIFEST > $BLANK_MANIFEST
