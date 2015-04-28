@@ -10,6 +10,8 @@ IFS=$'\n\t'
 ISO=
 IMAGE_NAME=
 OWNER_UUID=
+DESC=
+HOMEPAGE=
 
 IP=
 NETMASK=
@@ -28,25 +30,27 @@ cat <<EOF
 Create an kvm Debian image from a given ISO file.
 
 Usage:
-  $0 -i <ISO> -n <IMAGE_NAME> -o <OWNER_UUID> -p <IP> -m NETMASK -v <VLAN_ID> -u <NETWORK_UUID>
+  $0 -i <ISO> -n <IMAGE_NAME> -d <DESC> -u <HOMEPAGE> -o <OWNER_UUID> -p <IP> -m NETMASK -v <VLAN_ID> -U <NETWORK_UUID>
 
 Example:
-  $0 -i binary.sio -n debian-8 -o 00000000-0000-0000-0000-000000000000 -p 192.0.2.21 -m NETMASK -v <VLAN_ID> -u <NETWORK_UUID>
+  $0 -i binary.iso -n debian-8 -d "Debian 8 (jessie) 64-bit image with just essential packages installed. Ideal for users who are comfortable with setting up their own environment and tools." -u https://docs.joyent.com/images/kvm/debian -o 00000000-0000-0000-0000-000000000000 -p 192.0.2.21 -m NETMASK -v <VLAN_ID> -U <NETWORK_UUID>
     
 OPTIONS:
   -i The ISO
   -n The name of the image as it would appear in the manifest
+  -d The description of the image
+  -u The homepage URL for the image
   -o The onwer UUID for the blank VM
   -p The IP address for the blank VM
   -m The netmask for the blank VM
   -v The vlan ID for blank VM
-  -u The Network UUID for the blank vm
+  -U The Network UUID for the blank vm
   -h Show this message
 
 EOF
 }
 
-while getopts "hi:n:o:p:m:v:u:" OPTION
+while getopts "hi:n:d:u:o:p:m:v:U:" OPTION
 do
   case $OPTION in
     h)
@@ -201,7 +205,7 @@ function create_file {
 
 function create_manifest {
   echo "==> Creating manifest file..."
-  ./sdc-vmmanifest -f ${IMAGE_NAME}-${BUILD_DATE}.zfs.gz -n ${IMAGE_NAME} -s 10240 -v ${BUILD_DATE} -d "Debian 8 (jessie) 64-bit image with just essential packages installed. Ideal for users who are comfortable with setting up their own environment and tools." -h https://docs.joyent.com/images/kvm/debian -o linux > ${IMAGE_NAME}-${BUILD_DATE}.json
+  ./sdc-vmmanifest -f ${IMAGE_NAME}-${BUILD_DATE}.zfs.gz -n ${IMAGE_NAME} -s 10240 -v ${BUILD_DATE} -d "$DESC" -h $HOMEPAGE -o linux > ${IMAGE_NAME}-${BUILD_DATE}.json
   echo "==> done!"
   echo "==>"
 }
