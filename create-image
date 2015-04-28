@@ -232,6 +232,10 @@ function show_image_files {
   echo ""
 }
 
+function clean_up {
+  rm -rf blank.json
+}
+
 
 # MAIN
 
@@ -247,5 +251,6 @@ snapshot
 create_file
 create_manifest
 show_image_files
+clean_up
 
 exit 0
