@@ -3,6 +3,7 @@ lb config noauto \
      --clean \
      --quiet \
      --mode debian \
+     --architectures amd64 \
      --linux-flavours amd64 \
      --bootappend-live "auto=true priority=critical vga=normal locales=en_US.UTF-8 keyboard-layouts=us" \
      --bootappend-install "auto=true priority=critical locales=en_US.UTF-8 keyboard-layouts=us" \
