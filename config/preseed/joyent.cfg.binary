@@ -35,7 +35,7 @@ d-i	netcfg/get_nameservers	string 8.8.8.8 8.8.4.4
 # from being shown, even if values come from dhcp.
 d-i netcfg/get_hostname seen true
 d-i netcfg/get_domain seen true
-d-i netcfg/get_hostname string debian-7
+d-i netcfg/get_hostname string debian8
 d-i	netcfg/get_domain	string joyent.com
 
 # Disable that annoying WEP key dialog.
