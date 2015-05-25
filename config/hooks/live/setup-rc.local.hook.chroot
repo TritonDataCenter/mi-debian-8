@@ -2,5 +2,9 @@
 
 # Creates the necessary symlink to ensure joyent_rc.local is run at boot
 
+set -e
+
+echo "==> Running hook script $0"
+
 mv /etc/rc.local /etc/rc.local-backup
 ln -s /lib/smartdc/joyent_rc.local /etc/rc.local

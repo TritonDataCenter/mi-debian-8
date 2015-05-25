@@ -1,5 +1,9 @@
 #!/bin/sh
 
+set -e
+
+echo "==> Running hook script $0"
+
 BUILDDATE=`date +%Y%m%d`
 NAME="Debian 8 (jessie)"
 WIKIURL="https://docs.joyent.com/images/linux/debian"

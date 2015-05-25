@@ -2,4 +2,8 @@
 
 # Set dhcp-lease-time to 3600 
 
+set -e
+
+echo "==> Running hook script $0"
+
 sed -i 's/#send dhcp-lease-time 3600;/send dhcp-lease-time 3600;/g' /etc/dhcp/dhclient.conf 
