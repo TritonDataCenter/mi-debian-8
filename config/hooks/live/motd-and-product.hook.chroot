@@ -10,7 +10,7 @@ WIKIURL="https://docs.joyent.com/images/linux/debian"
 
 
 # Create the MOTD
-mv /etc/motd /etc/motd-backup
+rm /etc/motd
 
 cat << MOTD > /etc/motd
    __        .                   .
