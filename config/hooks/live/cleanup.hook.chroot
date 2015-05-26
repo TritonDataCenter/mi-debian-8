@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# Cleanup caches and logs etc
+
+set -e
+
+echo "==> Running hook script $0"
+
+apt-get -y clean
+rm -rf /var/lib/apt/lists/*
+rm -rf /var/cache/*
+rm -rf /var/log/*
