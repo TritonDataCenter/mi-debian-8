@@ -1,7 +1,6 @@
 #!/bin/sh
 lb config noauto \
      --clean \
-     --quiet \
      --mode debian \
      --architectures amd64 \
      --linux-flavours amd64 \
