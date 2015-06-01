@@ -1,42 +1,51 @@
 # mi-debian
 
 This repo contains live-build files and scripts to create an custom Debian 8 
-ISO image with the necessary packages and sdc-vmtools installed for deploying 
-on SmartOS and Joyent Public Cloud.
+ISO and image for deploying on SmartOS and Smart Data Center.
 
-For more information on live-build see the [live-build manual](http://live-systems.org/manual/stable/html/live-manual.en.html)
+For more information on live-build see the [live-build manual](http://live.debian.net/manual/current/index.en.html)
 
 ## Requirements
 
 In order to use this repo, you need to have the following:
 
- * SmartOS
- * A running Debian instance (physical or virtual) with spare disk space
- * sdc-vmtools
+ * A running Debian instance (physical or virtual) with spare disk space and  live-build 5.* installed.
+ * A SmartOS machine
+
  
-## Setup
+## Install live-build via the git repo
 
-Install live-build:
+Clone the repo and build the package:
+```
+git clone git://live-systems.org/git/live-build.git
+cd live-build
+dpkg-buildpackage -b -uc -us
+cd ..
+```
+
+Then install the newly build *deb file:
 
 ```
-apt-get install live-build
+dpkg -i live-build_5.0~a8-1_all.deb
 ```
-
-Put the sdc-vmtools directory in the root of this repository.
 
 ## Configure
 
 Modify the scripts in `auto\` and `config` depending on how you want your ISO configured. See the [live-build manual](http://live-systems.org/manual/stable/html/live-manual.en.html) for more information.
 
 
-## Using
+## Usage
 
-Once configured, run the following command:
+Create the custom ISO with:
 
 ```
-./fullbuild.sh
+./create-iso
 ```
+Once complete, your custom ISO will be available in the root of this repository.
 
-Thsi will run copy teh required files from sdc-vmtools into `config/includes.chroot` and then will run `config/includes.chroot`
+On a SmartOS machine, you can then create and image with:
 
-Once complete, your custom ISO (binary.iso) will be available in the root of this repository
+```
+./create-image -i <ISO> -n <IMAGE_NAME> -d <DESC> -u <HOMEPAGE> -o <OWNER_UUID> -p <IP> -m NETMASK -g <GATEWAY> -v <VLAN_ID> -U <NETWORK_UUID>
+```
+See `./create-image -h` for usage.
