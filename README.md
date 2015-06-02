@@ -1,4 +1,4 @@
-# mi-debian
+# mi-debian-8
 
 This repo contains live-build files and scripts to create an custom Debian 8 
 ISO and image for deploying on SmartOS and Smart Data Center.
