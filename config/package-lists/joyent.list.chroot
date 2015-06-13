@@ -1,8 +1,5 @@
 acpid
-curl
-less
 ntp
 openssh-server
 parted
 vim
-wget
